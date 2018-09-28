@@ -1,5 +1,5 @@
-<header>
-    <div class="navbar navbar-dark bg-dark shadow-sm">
+<header>  
+  <div class="navbar navbar-dark bg-dark shadow-sm">
         <div class="container d-flex justify-content-between">
           <a href="#" class="navbar-brand d-flex align-items-center">
               <i class="fas fa-coffee"></i>&nbsp;
@@ -9,9 +9,9 @@
             Login
           </a>
         </div>
-      </div>
+      </div> 
 </header>
-<agm-map [latitude]="lat" [longitude]="lng">
-  <agm-marker [latitude]="lat" [longitude]="lng"></agm-marker>
-</agm-map>
+<agm-map [latitude]="lat" [longitude]="lng"  [style.height.px]="actualHeight" (window:resize)="onResize($event)">
+    <agm-marker [latitude]="lat" [longitude]="lng"></agm-marker>
+</agm-map>  
 <app-footer></app-footer>
