@@ -10,14 +10,11 @@ export class AppComponent implements OnInit{
   lat: number = 51.678418;
   lng: number = 7.809007;
   actualHeight: number;
+  navsHeight:number  = 106;
 
   constructor(){
     // Actual space available in navigator    
-    this.actualHeight = window.innerHeight - 106;    
-  }
-
-  onResize($event){
-    this.actualHeight = window.innerHeight - 106;
+    this.actualHeight = window.innerHeight - this.navsHeight;    
   }
 
   ngOnInit(){    
