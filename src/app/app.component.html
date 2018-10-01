@@ -11,8 +11,7 @@
         </div>
       </div> 
 </header>
-<!--<agm-map [latitude]="lat" [longitude]="lng"  [style.height.px]="actualHeight" appMapResize (window:resize)="onResize($event)">-->
-<agm-map [latitude]="lat" [longitude]="lng"  [style.height.px]="actualHeight" appMapResize >
+<agm-map [latitude]="lat" [longitude]="lng"  [style.height.px]="currentHeight" appMapResize >
     <agm-marker [latitude]="lat" [longitude]="lng"></agm-marker>
 </agm-map>  
 <app-footer></app-footer>

@@ -9,12 +9,12 @@ export class AppComponent implements OnInit{
   title = 'Nightlife Coordination Life';  
   lat: number = 51.678418;
   lng: number = 7.809007;
-  actualHeight: number;
+  currentHeight: number;
   navsHeight:number  = 106;
 
   constructor(){
-    // Actual space available in navigator    
-    this.actualHeight = window.innerHeight - this.navsHeight;    
+    // Current available space in navigator    
+    this.currentHeight = window.innerHeight - this.navsHeight;    
   }
 
   ngOnInit(){    

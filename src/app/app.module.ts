@@ -7,12 +7,14 @@ import { AgmCoreModule } from '@agm/core';
 import { environment } from '../environments/environment';
 import { FooterComponent } from './components/footer/footer.component';
 import { MapResizeDirective } from './directives/map-resize.directive';
+import { LocationSearchComponent } from './src/app/components/location-search/location-search.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     FooterComponent,
-    MapResizeDirective
+    MapResizeDirective,
+    LocationSearchComponent
   ],
   imports: [
     BrowserModule,
