@@ -19,7 +19,8 @@ import { LocationSearchComponent } from './src/app/components/location-search/lo
   imports: [
     BrowserModule,
     AgmCoreModule.forRoot({
-      apiKey: environment.apiKey
+      apiKey: environment.apiKey,
+      libraries: ['places']
     })
   ],
   providers: [],
