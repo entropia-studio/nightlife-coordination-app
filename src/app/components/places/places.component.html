@@ -1,0 +1,21 @@
+
+<div class="container-fluid">
+  <div class="row">
+      <nav class="col-md-2 d-none d-md-block bg-light sidebar">
+        Places  
+      </nav>
+     
+      <div class="col-md-9 ml-sm-auto col-lg-10">
+     
+          <app-map 
+            [lat]="coordinates.lat" 
+            [lng]="coordinates.lng" 
+            [mapZoom]="coordinates.mapZoom" >
+          </app-map>
+     
+        </div>
+     
+  </div>
+
+</div>
+

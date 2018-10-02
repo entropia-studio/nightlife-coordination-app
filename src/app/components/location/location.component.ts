@@ -9,7 +9,7 @@ import { Coordinates } from '../../interfaces/coordinates';
 })
 export class LocationComponent {
 
-  coordinates: Coordinates;   
+  coordinates: Coordinates;  
 
   constructor() {
     this.coordinates = {

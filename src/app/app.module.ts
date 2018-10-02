@@ -12,6 +12,7 @@ import { SearchboxComponent } from './components/searchbox/searchbox.component';
 import { AppRoutingModule } from './/app-routing.module';
 import { LocationComponent } from './components/location/location.component';
 import { MapComponent } from './components/map/map.component';
+import { PlacesComponent } from './components/places/places.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { MapComponent } from './components/map/map.component';
     LocationSearchComponent,
     SearchboxComponent,
     LocationComponent,
-    MapComponent
+    MapComponent,
+    PlacesComponent
   ],
   imports: [
     BrowserModule,
