@@ -1,0 +1,13 @@
+#searchBox{
+    position: absolute;
+    top: 100px;       
+    z-index: 100;       
+}
+
+button{
+    margin: 0.5em 0em 0.5em 0em;        
+}
+
+.font-weight-bold{
+    font-size: 0.8em;
+}

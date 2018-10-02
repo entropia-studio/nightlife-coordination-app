@@ -1,0 +1,8 @@
+<app-searchbox 
+  (coordinatesChanged)="coordinatesChangedHandler($event)">
+</app-searchbox>
+<app-map 
+  [lat]="coordinates.lat" 
+  [lng]="coordinates.lng" 
+  [mapZoom]="coordinates.mapZoom" >
+</app-map>
