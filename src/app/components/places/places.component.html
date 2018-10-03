@@ -2,20 +2,18 @@
 <div class="container-fluid">
   <div class="row">
       <nav class="col-md-2 d-none d-md-block bg-light sidebar">
-        Places  
-      </nav>
-     
-      <div class="col-md-9 ml-sm-auto col-lg-10">
-     
-          <app-map 
-            [lat]="coordinates.lat" 
-            [lng]="coordinates.lng" 
-            [mapZoom]="coordinates.mapZoom" >
-          </app-map>
-     
-        </div>
-     
+        <app-searchbox (coordinatesChanged)="coordinatesChangedHandler($event)"></app-searchbox>  
+      </nav>     
+      <div class="col-md-9 ml-sm-auto col-lg-10">     
+        <agm-map 
+          [latitude]="coordinates.lat" 
+          [longitude]="coordinates.lng"  
+          [style.height.px]="currentHeight" 
+          [zoom]="coordinates.mapZoom" appMapResize
+          (mapReady)="mapReady($event)"
+          >
+          <agm-marker [latitude]="place.lat" [longitude]="place.lng" *ngFor="let place of places"></agm-marker>
+        </agm-map>         
   </div>
-
 </div>
 

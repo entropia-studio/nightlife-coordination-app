@@ -35,15 +35,14 @@ export class SearchboxComponent implements OnInit {
             let place: google.maps.places.PlaceResult = autocomplete.getPlace();
             if (place.geometry === undefined || place.geometry === null){
               return;
-            }
+            }            
             let lat = place.geometry.location.lat();
             let lng = place.geometry.location.lng(); 
             // Communicate with the parent
             this.coordinatesChanged.emit({'lat': lat, 'lng': lng, 'mapZoom': 15});                               
-          });
-      });        
-    }
-  )   
+            });
+        });        
+      }
+    )   
   }
-
 }
