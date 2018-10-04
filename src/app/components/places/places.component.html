@@ -2,7 +2,18 @@
 <div class="container-fluid">
   <div class="row">
       <nav class="col-md-2 d-none d-md-block bg-light sidebar">
-        <app-searchbox (coordinatesChanged)="coordinatesChangedHandler($event)"></app-searchbox>  
+        <app-searchbox (coordinatesChanged)="coordinatesChangedHandler($event)"></app-searchbox>
+        <div class="row">
+          <div class="cold-12" *ngFor="let place of places">
+            <ul class="list-unstyled">
+              <li><img src="{{place.image}}" alt="{{place.name}}" class="img-fluid" /></li>
+              <li><b>{{place.name}}</b></li>
+              <li>ADDRESS: {{place.address}}</li>
+              <li>RATING: {{place.rating}}</li>
+              <li>GOING: -</li>
+          </ul>
+          </div>
+        </div>         
       </nav>     
       <div class="col-md-9 ml-sm-auto col-lg-10">     
         <agm-map 
@@ -11,8 +22,13 @@
           [style.height.px]="currentHeight" 
           [zoom]="coordinates.mapZoom" appMapResize
           (mapReady)="mapReady($event)"
+          [disableDefaultUI]="false"          
           >
-          <agm-marker [latitude]="place.lat" [longitude]="place.lng" *ngFor="let place of places"></agm-marker>
+          <agm-marker 
+            [latitude]="place.lat" 
+            [longitude]="place.lng" 
+            *ngFor="let place of places">                      
+          </agm-marker>
         </agm-map>         
   </div>
 </div>
