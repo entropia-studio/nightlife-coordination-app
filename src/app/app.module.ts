@@ -14,6 +14,7 @@ import { LocationComponent } from './components/location/location.component';
 import { MapComponent } from './components/map/map.component';
 import { PlacesComponent } from './components/places/places.component';
 
+
 @NgModule({
   declarations: [
     AppComponent,

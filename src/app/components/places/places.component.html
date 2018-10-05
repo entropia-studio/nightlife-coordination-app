@@ -1,21 +1,19 @@
 
 <div class="container-fluid">
   <div class="row">
-      <nav class="col-md-2 d-none d-md-block bg-light sidebar">
-        <app-searchbox (coordinatesChanged)="coordinatesChangedHandler($event)"></app-searchbox>
-        <div class="row">
-          <div class="cold-12" *ngFor="let place of places">
-            <ul class="list-unstyled">
-              <li><img src="{{place.image}}" alt="{{place.name}}" class="img-fluid" /></li>
+      <nav class="col-md-3 d-none d-md-block bg-light sidebar scrollable" appMapResize [style.height.px]="currentHeight">                
+        <button (click)="scroll(target)"></button>        
+        <app-searchbox (coordinatesChanged)="coordinatesChangedHandler($event)"></app-searchbox>                
+            <ul class="list-unstyled" *ngFor="let place of places" data-spy="scroll" data-offset="0" data-target="#list-example">
+              <li id="{{place.id}}"><img src="{{place.image}}" alt="{{place.name}}" class="img-fluid" /></li>
               <li><b>{{place.name}}</b></li>
               <li>ADDRESS: {{place.address}}</li>
               <li>RATING: {{place.rating}}</li>
               <li>GOING: -</li>
-          </ul>
-          </div>
-        </div>         
+            </ul>    
+            <div #target>Your target</div>               
       </nav>     
-      <div class="col-md-9 ml-sm-auto col-lg-10">     
+      <div class="col-md-9 ml-sm-auto col-lg-9">     
         <agm-map 
           [latitude]="coordinates.lat" 
           [longitude]="coordinates.lng"  
@@ -27,9 +25,12 @@
           <agm-marker 
             [latitude]="place.lat" 
             [longitude]="place.lng" 
-            *ngFor="let place of places">                      
+            *ngFor="let place of places"
+            (markerClick)="scroll(place.id)"
+            >                      
           </agm-marker>
-        </agm-map>         
+        </agm-map>  
+      </div>       
   </div>
 </div>
 

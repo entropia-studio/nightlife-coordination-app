@@ -5,4 +5,5 @@ export interface Place {
     rating: number;
     lat: number;
     lng: number;
+    id: string;
 }

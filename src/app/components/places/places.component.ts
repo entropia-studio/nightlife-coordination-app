@@ -1,7 +1,8 @@
-import { Component, OnInit, NgZone} from '@angular/core';
+import { Component, OnInit, NgZone, AfterViewInit} from '@angular/core';
 import { Coordinates } from '../../interfaces/coordinates';
 import {} from '@types/googlemaps';
 import { Place } from '../../interfaces/place';
+
 
 
 
@@ -10,14 +11,16 @@ import { Place } from '../../interfaces/place';
   templateUrl: './places.component.html',
   styleUrls: ['./places.component.css']
 })
-export class PlacesComponent {
+export class PlacesComponent{
 
   places: Place[] = [];      
   coordinates: Coordinates;
   currentHeight: number;
   navsHeight: number  = 106;
   
-  constructor(private ngZone: NgZone) {
+  constructor(
+    private ngZone: NgZone,
+    ) {
     this.coordinates = {
       'lat'  : 39.5231711,
       'lng' : -0.4186977,
@@ -26,6 +29,12 @@ export class PlacesComponent {
     // Current available space in navigator    
     this.currentHeight = window.innerHeight - this.navsHeight; 
   }  
+  
+
+  scroll(el) {
+    document.getElementById(el).scrollIntoView({behavior: "smooth"});
+    //el.scrollIntoView({behavior: "smooth"});
+  }
 
   coordinatesChangedHandler = (coordinates: Coordinates) => {
     this.coordinates = coordinates;    
@@ -44,17 +53,14 @@ export class PlacesComponent {
   }
 
   callback(results, status) {
-    console.log(results)
+    //console.log(results)
     // If it is not present the markers won't appear until fire an event on screen
     // It's perentory to work inside Angular zona to detect changes
     this.ngZone.run(() => {
       if (status === google.maps.places.PlacesServiceStatus.OK) {
       
         for (var i = 0; i < results.length; i++) {              
-          let urlImage = results[i].photos ? results[i].photos[0].getUrl({maxWidth: 300}) : results[i].icon;
-          if (results[i].photos){
-            console.log(results[i].photos[0].getUrl({maxWidth: 640}))
-          }
+          let urlImage = results[i].photos ? results[i].photos[0].getUrl({maxWidth: 300}) : results[i].icon;          
           
           this.places.push({
             'name'    : results[i].name,
@@ -63,6 +69,7 @@ export class PlacesComponent {
             'rating'  : Number(results[i].rating),
             'lat'     : Number(results[i].geometry.location.lat()),
             'lng'     : Number(results[i].geometry.location.lng()),
+            'id'      : results[i].id
           })                   
         }              
       }

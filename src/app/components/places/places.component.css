@@ -1,4 +1,11 @@
 .list-unstyled{
     font-size: 0.8em;
     line-height: 1.2em;
+    background-color: white;
+    padding: 0.5em;
 }
+
+.scrollable{   
+    position: relative;
+    overflow-y: scroll;
+  }
