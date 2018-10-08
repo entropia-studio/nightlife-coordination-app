@@ -30,6 +30,7 @@ export class PlacesComponent{
   scroll(el) {
     document.getElementById(el).scrollIntoView({behavior: "smooth"});
     //el.scrollIntoView({behavior: "smooth"});
+    this.places[3].animation = 'BOUNCE';
   }
 
   coordinatesChangedHandler = (coordinates: Coordinates) => {
@@ -48,24 +49,29 @@ export class PlacesComponent{
     }, this.callback.bind(this))          
   }
 
+  animateMarker(place: Place){
+    console.log('Place click',place)
+    this.places[3].animation = 'BOUNCE'
+  }
+
   callback(results, status) {
     //console.log(results)
     // If it is not present the markers won't appear until fire an event on screen
     // It's perentory to work inside Angular zona to detect changes
     this.ngZone.run(() => {
-      if (status === google.maps.places.PlacesServiceStatus.OK) {
-      
+      if (status === google.maps.places.PlacesServiceStatus.OK) {      
         for (var i = 0; i < results.length; i++) {              
           let urlImage = results[i].photos ? results[i].photos[0].getUrl({maxWidth: 300}) : results[i].icon;          
           
           this.places.push({
-            'name'    : results[i].name,
-            'image'   : urlImage,
-            'address' : results[i].vicinity,
-            'rating'  : Number(results[i].rating),
-            'lat'     : Number(results[i].geometry.location.lat()),
-            'lng'     : Number(results[i].geometry.location.lng()),
-            'id'      : results[i].id
+            'name'      : results[i].name,
+            'image'     : urlImage,
+            'address'   : results[i].vicinity,
+            'rating'    : Number(results[i].rating),
+            'lat'       : Number(results[i].geometry.location.lat()),
+            'lng'       : Number(results[i].geometry.location.lng()),
+            'id'        : results[i].id,
+            'animation' : 'DROP'
           })                   
         }              
       }

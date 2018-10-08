@@ -6,4 +6,5 @@ export interface Place {
     lat: number;
     lng: number;
     id: string;
+    animation: string;
 }

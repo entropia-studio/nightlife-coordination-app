@@ -10,8 +10,7 @@ export class MapResizeDirective {
   constructor(
     private el: ElementRef,    
   ) {
-    el.nativeElement.style.height = (window.innerHeight - this.navsHeight) + 'px'; 
-    console.log('window.innerHeight',window.innerHeight)       
+    el.nativeElement.style.height = (window.innerHeight - this.navsHeight) + 'px';     
   }    
 
   @HostListener('window:resize', ['$event']) onResize(event) {        

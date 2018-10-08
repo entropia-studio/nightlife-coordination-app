@@ -25,6 +25,7 @@
             [longitude]="place.lng" 
             *ngFor="let place of places"
             (markerClick)="scroll(place.id)"
+            [animation]="place.animation"
             >                      
           </agm-marker>
         </agm-map>  
