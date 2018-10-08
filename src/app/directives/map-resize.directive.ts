@@ -4,14 +4,18 @@ import { Directive, HostListener, ElementRef } from '@angular/core';
   selector: '[appMapResize]'
 })
 export class MapResizeDirective {
+  
+  navsHeight:number = 106;
 
   constructor(
-    private el: ElementRef,
-  ) { }
+    private el: ElementRef,    
+  ) {
+    el.nativeElement.style.height = (window.innerHeight - this.navsHeight) + 'px'; 
+    console.log('window.innerHeight',window.innerHeight)       
+  }    
 
-  @HostListener('window:resize', ['$event']) onResize(event) {    
-    const navsHeight = 106;
-    this.el.nativeElement.style.height = (event.target.innerHeight - navsHeight) + 'px';
+  @HostListener('window:resize', ['$event']) onResize(event) {        
+    this.el.nativeElement.style.height = (event.target.innerHeight - this.navsHeight) + 'px';
   }
 
 }

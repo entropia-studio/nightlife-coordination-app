@@ -15,8 +15,6 @@ export class PlacesComponent{
 
   places: Place[] = [];      
   coordinates: Coordinates;
-  currentHeight: number;
-  navsHeight: number  = 106;
   
   constructor(
     private ngZone: NgZone,
@@ -25,9 +23,7 @@ export class PlacesComponent{
       'lat'  : 39.5231711,
       'lng' : -0.4186977,
       'mapZoom' : 15
-    }    
-    // Current available space in navigator    
-    this.currentHeight = window.innerHeight - this.navsHeight; 
+    }        
   }  
   
 
