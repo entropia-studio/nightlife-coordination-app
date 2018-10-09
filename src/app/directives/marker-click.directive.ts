@@ -9,7 +9,7 @@ export class MarkerClickDirective {
 
   @HostListener('click') onClick() {
     console.log(this.el)
-    this.el.nativeElement.className += ' bg-dark text-light';    
+    //this.el.nativeElement.className += ' bg-dark text-light';    
   }
 
 }

@@ -16,6 +16,7 @@ export class PlacesComponent implements OnInit{
   markers: Marker[] = [];
   coordinates: Coordinates;
   markerIdSelected: number;
+  elementSelected: string;
   map: any;
   
   constructor(
@@ -39,12 +40,17 @@ export class PlacesComponent implements OnInit{
 
   markerClick(el: string, index: number) {
     // Scroll to the element
-    document.getElementById(el).scrollIntoView({behavior: "smooth"});        
+    document.getElementById(el).scrollIntoView({behavior: "smooth"});
+    // Style selected list
+    document.getElementById(el).className += ' bg-dark text-light';            
     // Unmark the marker
+    // Unstyle list
     if (+this.markerIdSelected >= 0){
       this.markers[this.markerIdSelected].iconUrl = 'https://maps.google.com/mapfiles/ms/icons/blue-dot.png'  
+      document.getElementById(this.elementSelected).className = 'list-unstyled';            
     }
     this.markerIdSelected = index;
+    this.elementSelected = el;
     
     this.markers[index] = this.setMarker(index);
     
