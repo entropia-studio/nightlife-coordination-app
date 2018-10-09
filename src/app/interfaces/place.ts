@@ -2,9 +2,6 @@ export interface Place {
     name: string;
     image: string;
     address: string;
-    rating: number;
-    lat: number;
-    lng: number;
-    id: string;
-    animation: string;
+    rating: number;    
+    id: string;    
 }
