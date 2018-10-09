@@ -6,6 +6,7 @@ import { PlacesComponent } from './components/places/places.component';
 const routes: Routes = [
   { path: '', component: LocationComponent },
   { path: 'places', component: PlacesComponent }
+  
 ];
 
 @NgModule({

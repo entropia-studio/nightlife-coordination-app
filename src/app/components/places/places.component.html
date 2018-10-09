@@ -1,11 +1,17 @@
 
-<div class="container-fluid">
-  <div class="row">
-      <nav class="col-md-3 d-none d-md-block bg-light sidebar scrollable" appMapResize >    
-               
-        <app-searchbox (coordinatesChanged)="coordinatesChangedHandler($event)"></app-searchbox>                
-            <ul class="list-unstyled" *ngFor="let place of places" data-spy="scroll" data-offset="0" data-target="#list-example">
-              <li id="{{place.id}}"><img src="{{place.image}}" alt="{{place.name}}" class="img-fluid" /></li>
+<div class="container-fluid pl-0 pr-0">
+  <div class="row no-gutters">
+      <nav class="col-md-3 d-none d-md-block bg-light sidebar scrollable" appMapResize >
+        <div class="col-12 bg-primary" style="margin-bottom: 1em">
+          <app-searchbox (coordinatesChanged)="coordinatesChangedHandler($event)"></app-searchbox>                
+        </div>                   
+            <ul class="list-unstyled" 
+                *ngFor="let place of places;let i = index" 
+                (click)="markerClick(place.id,i)"
+                id="{{place.id}}"
+                appMarkerClick
+            >
+              <li><img src="{{place.image}}" alt="{{place.name}}" class="img-fluid py-1" /></li>
               <li><b>{{place.name}}</b></li>
               <li>ADDRESS: {{place.address}}</li>
               <li>RATING: {{place.rating}}</li>
@@ -18,14 +24,15 @@
           [longitude]="coordinates.lng"            
           [zoom]="coordinates.mapZoom" appMapResize
           (mapReady)="mapReady($event)"
-          [disableDefaultUI]="false"          
+          [disableDefaultUI]="false"             
           >
           <agm-marker 
-            [latitude]="place.lat" 
-            [longitude]="place.lng" 
-            *ngFor="let place of places"
-            (markerClick)="scroll(place.id)"
-            [animation]="place.animation"
+            [latitude]="marker.lat" 
+            [longitude]="marker.lng" 
+            *ngFor="let marker of markers;let j = index"
+            (markerClick)="markerClick(marker.id,j)"
+            [animation]="marker.animation"
+            [iconUrl]="marker.iconUrl"
             >                      
           </agm-marker>
         </agm-map>  

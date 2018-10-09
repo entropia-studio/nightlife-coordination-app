@@ -1,5 +1,6 @@
 export interface Coordinates {
     lat: number;
     lng: number;
-    mapZoom: number;    
+    mapZoom: number; 
+    id?: string;   
 }

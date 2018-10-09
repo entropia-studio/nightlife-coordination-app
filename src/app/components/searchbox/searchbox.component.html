@@ -8,5 +8,7 @@
   spellcheck="off"
   #search
   >  
-  <button type="button" class="btn btn-dark btn-sm" routerLink="/places">Show bars</button>          
+  <button type="button" class="btn btn-dark btn-sm" (click)="showPlaces()" [disabled]="btnPlacesDisabled">
+    Show bars
+  </button>          
     
