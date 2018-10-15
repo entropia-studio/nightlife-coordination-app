@@ -74,6 +74,10 @@ export class PlacesComponent implements OnInit{
     this.coordinates = coordinates;    
   }
 
+  addToPlace(place: Place){
+    console.log(place)
+  }
+
 
   mapReady(map: any){    
     this.map = map;
@@ -98,7 +102,7 @@ export class PlacesComponent implements OnInit{
     // It's perentory to work inside Angular zona to detect changes
     this.ngZone.run(() => {
       if (status === google.maps.places.PlacesServiceStatus.OK) {      
-        console.log(results)
+        //console.log(results)
         for (var i = 0; i < results.length; i++) {
           this.places.push({
             name      : results[i].name,

@@ -13,6 +13,8 @@ import { LocationComponent } from './components/location/location.component';
 import { MapComponent } from './components/map/map.component';
 import { PlacesComponent } from './components/places/places.component';
 import { MarkerClickDirective } from './directives/marker-click.directive';
+import { LoginComponent } from './components/login/login.component';
+import { ModalModule } from 'ngx-bootstrap/modal';
 
 
 @NgModule({
@@ -24,15 +26,18 @@ import { MarkerClickDirective } from './directives/marker-click.directive';
     LocationComponent,
     MapComponent,
     PlacesComponent,
-    MarkerClickDirective
+    MarkerClickDirective,
+    LoginComponent,    
   ],
+  entryComponents: [LoginComponent],
   imports: [
     BrowserModule,
     AgmCoreModule.forRoot({
       apiKey: environment.apiKey,
       libraries: ['places']
     }),
-    AppRoutingModule
+    AppRoutingModule,
+    ModalModule.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent]
