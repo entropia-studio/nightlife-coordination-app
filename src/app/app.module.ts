@@ -1,5 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 
 import { AppComponent } from './app.component';
@@ -14,7 +15,12 @@ import { MapComponent } from './components/map/map.component';
 import { PlacesComponent } from './components/places/places.component';
 import { MarkerClickDirective } from './directives/marker-click.directive';
 import { LoginComponent } from './components/login/login.component';
+
+// ngx modules
+
 import { ModalModule } from 'ngx-bootstrap/modal';
+import { TabsModule } from 'ngx-bootstrap/tabs';
+
 
 
 @NgModule({
@@ -27,7 +33,8 @@ import { ModalModule } from 'ngx-bootstrap/modal';
     MapComponent,
     PlacesComponent,
     MarkerClickDirective,
-    LoginComponent,    
+    LoginComponent,
+    
   ],
   entryComponents: [LoginComponent],
   imports: [
@@ -37,7 +44,10 @@ import { ModalModule } from 'ngx-bootstrap/modal';
       libraries: ['places']
     }),
     AppRoutingModule,
-    ModalModule.forRoot()
+    ModalModule.forRoot(),
+    TabsModule.forRoot(),
+    FormsModule,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

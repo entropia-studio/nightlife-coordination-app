@@ -1,9 +1,73 @@
-<div class="modal-header">
-  <h4 class="modal-title pull-left">Modal</h4>
-  <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
-    <span aria-hidden="true">&times;</span>
-  </button>
-</div>
-<div class="modal-body">
-  This is a modal.
-</div>
+  
+  <tabset>
+
+    <tab heading="Registration">        
+        <div class="modal-body">
+            <form [formGroup]="registerForm" #formDirective="ngForm" (ngSubmit)="onSubmit(formDirective)">
+              <div class="form-group">
+                <label for="email">Email address</label>
+                <input type="email" 
+                  class="form-control" 
+                  formControlName="email"   
+                  id="email"               
+                  aria-describedby="emailHelp" 
+                  placeholder="Enter email"
+                  required>                    
+                  <div *ngIf="email.invalid && (email.dirty || email.touched)" class="alert alert-danger">
+                    <div *ngIf="email.errors.required">
+                      Email is required.
+                    </div>  
+                    <div *ngIf="email.errors.email">
+                        A valid email is required.
+                    </div>                    
+                  </div>
+              </div>
+              <div formGroupName="passwords">
+                <div class="form-group">
+                  <label for="password">Password</label>
+                  <input type="password" class="form-control" formControlName="password" placeholder="Password" id="password" name="password" required>
+                </div>
+                <div class="form-group">
+                  <label for="cpassword">Confirm password</label>
+                  <input type="password" class="form-control" formControlName="cpassword" placeholder="Password" required id="cpassword" >                  
+                  <!--
+                  <div *ngIf="cpassword.invalid && (cpassword.dirty || cpassword.touched)" class="alert alert-danger">                    
+                      Password mismatch.                    
+                  </div>
+                  -->
+                  <div *ngIf="passwords?.errors?.passwordNotEqual && (password.touched || password.dirty) && (cpassword.touched || cpassword.dirty)"
+                  class="alert alert-danger"
+                  >
+                    The two passwords aren't the same<br/>
+                    cpassword: {{passwords.errors}}
+                  </div>                  
+                </div>                            
+              </div>
+              <button type="submit" class="btn btn-primary" [disabled]="!registerForm.valid">Submit</button>
+              <p>
+                  Form Status: {{ registerForm.status }}                  <br/>
+                  cpassword: {{passwords?.errors}}
+                </p>
+            </form>
+          </div>
+    </tab>
+    <tab heading="Login" id="loginTab">        
+      <div class="modal-body">
+          <form #loginForm="ngForm" novalidate>
+            <div class="form-group">
+              <label for="emailLogin">Email address</label>
+              <input type="email" class="form-control" id="emailLogin" aria-describedby="emailHelp" placeholder="Enter email" required>                
+            </div>
+            <div class="form-group">
+              <label for="passwordLogin">Password</label>
+              <input type="password" class="form-control" id="passwordLogin" placeholder="Password" required>
+            </div>              
+            <button type="submit" class="btn btn-primary">Submit</button>
+          </form>
+        </div>
+  </tab>
+  </tabset>
+  
+  
+  
+
