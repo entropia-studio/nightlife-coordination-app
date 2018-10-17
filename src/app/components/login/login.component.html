@@ -1,9 +1,34 @@
   
-  <tabset>
-
+<tabset>
+  <tab heading="Login" id="loginTab">        
+      <div class="modal-body">
+          <form [formGroup]="loginForm" (ngSubmit)="loginUser()" novalidate>
+            <div class="form-group">
+              <label for="emailLogin">Email address</label>
+              <input type="email" formControlName="emailLogin" class="form-control" id="emailLogin" aria-describedby="emailHelp" placeholder="Enter email" required>                
+              <div *ngIf="emailLogin.invalid && (emailLogin.dirty || emailLogin.touched)" class="alert alert-danger">
+                <div *ngIf="emailLogin.errors.required">
+                  Email is required.
+                </div>  
+                <div *ngIf="emailLogin.errors.email">
+                    A valid email is required.
+                </div>                    
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="passwordLogin">Password</label>
+              <input type="password" formControlName="passwordLogin" class="form-control" id="passwordLogin" placeholder="Password" required>
+            </div>              
+            <div *ngIf="errorLogin" class="alert alert-danger">
+              {{errorLogin}}
+            </div>
+            <button type="submit" class="btn btn-primary" >Submit</button>
+          </form>
+        </div>
+    </tab>
     <tab heading="Registration">        
         <div class="modal-body">
-            <form [formGroup]="registerForm" #formDirective="ngForm" (ngSubmit)="onSubmit(formDirective)">
+            <form [formGroup]="registerForm" #formDirective="ngForm" (ngSubmit)="registerUser(formDirective)">
               <div class="form-group">
                 <label for="email">Email address</label>
                 <input type="email" 
@@ -24,48 +49,26 @@
               </div>
               <div formGroupName="passwords">
                 <div class="form-group">
-                  <label for="password">Password</label>
-                  <input type="password" class="form-control" formControlName="password" placeholder="Password" id="password" name="password" required>
+                  <label for="password">Password (6 characters min.)</label>
+                  <input type="password" class="form-control" formControlName="password" placeholder="Password" id="password" name="password" minlength="6" required>
                 </div>
                 <div class="form-group">
                   <label for="cpassword">Confirm password</label>
-                  <input type="password" class="form-control" formControlName="cpassword" placeholder="Password" required id="cpassword" >                  
-                  <!--
-                  <div *ngIf="cpassword.invalid && (cpassword.dirty || cpassword.touched)" class="alert alert-danger">                    
-                      Password mismatch.                    
-                  </div>
-                  -->
+                  <input type="password" class="form-control" formControlName="cpassword" placeholder="Password" minlength="6" id="cpassword" required>                                
                   <div *ngIf="passwords?.errors?.passwordNotEqual && (password.touched || password.dirty) && (cpassword.touched || cpassword.dirty)"
                   class="alert alert-danger"
                   >
-                    The two passwords aren't the same<br/>
-                    cpassword: {{passwords.errors}}
-                  </div>                  
+                    The two passwords aren't the same                    
+                  </div>                                  
                 </div>                            
               </div>
-              <button type="submit" class="btn btn-primary" [disabled]="!registerForm.valid">Submit</button>
-              <p>
-                  Form Status: {{ registerForm.status }}                  <br/>
-                  cpassword: {{passwords?.errors}}
-                </p>
+              <div *ngIf="error" class="alert alert-danger">
+                {{error}}
+              </div>  
+              <button type="submit" class="btn btn-primary" [disabled]="!registerForm.valid">Submit</button>              
             </form>
           </div>
     </tab>
-    <tab heading="Login" id="loginTab">        
-      <div class="modal-body">
-          <form #loginForm="ngForm" novalidate>
-            <div class="form-group">
-              <label for="emailLogin">Email address</label>
-              <input type="email" class="form-control" id="emailLogin" aria-describedby="emailHelp" placeholder="Enter email" required>                
-            </div>
-            <div class="form-group">
-              <label for="passwordLogin">Password</label>
-              <input type="password" class="form-control" id="passwordLogin" placeholder="Password" required>
-            </div>              
-            <button type="submit" class="btn btn-primary">Submit</button>
-          </form>
-        </div>
-  </tab>
   </tabset>
   
   

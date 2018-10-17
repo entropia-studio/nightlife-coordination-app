@@ -4,12 +4,13 @@ const mongoose = require('mongoose');
 
 var MONGODB_URI = 'mongodb://'+process.env.USER_DB+':'+process.env.PASS+'@'+process.env.HOST+':'+process.env.DB_PORT+'/'+process.env.DB;
 
-var companyStockSchema = mongoose.Schema({      
-    name: {type: String, required: true, unique: true},
-    code: {type: String, required: true, unique: true}    
+var meetingSchema = mongoose.Schema({      
+    place_id: {type: String, required: true, unique: false},
+    user_id: {type: String, required: true, unique: false},
+    date: {type: Date, required: true, unique: false}
   })
   
-const Company = mongoose.model('Company',companyStockSchema);  
+const Meeting = mongoose.model('Meeting',meetingSchema);  
 
 function connect(){
     return new Promise((resolve,reject) => {
@@ -88,10 +89,12 @@ function connect(){
     })
   }
 
-  function getStocks(){
+  function getMeetings(){
       return new Promise((resolve,reject) => {
         try{
-            Company.find({})
+            let today = new Date();
+            console.log('today',today)
+            Meeting.find({"date": {"$gte":new Date("2018-10-17T00:00:00.000Z")}})
             .exec((error,result) => {
                 if (error) reject(error);
                 resolve(result);
@@ -122,6 +125,6 @@ function connect(){
   module.exports = {
     connect,
     addCompany,    
-    getStocks,
+    getMeetings,
     deleteCompany
   }

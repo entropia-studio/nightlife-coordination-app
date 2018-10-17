@@ -9,7 +9,7 @@ import { environment } from '../environments/environment';
 import { FooterComponent } from './components/footer/footer.component';
 import { MapResizeDirective } from './directives/map-resize.directive';
 import { SearchboxComponent } from './components/searchbox/searchbox.component';
-import { AppRoutingModule } from './/app-routing.module';
+import { AppRoutingModule } from './app-routing.module';
 import { LocationComponent } from './components/location/location.component';
 import { MapComponent } from './components/map/map.component';
 import { PlacesComponent } from './components/places/places.component';
@@ -21,6 +21,11 @@ import { LoginComponent } from './components/login/login.component';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { TabsModule } from 'ngx-bootstrap/tabs';
 
+//Firebase
+import { AngularFireModule } from '@angular/fire';
+import { AngularFirestoreModule } from '@angular/fire/firestore';
+import { AngularFireAuthModule } from '@angular/fire/auth';
+import { NavmenuComponent } from './components/navmenu/navmenu.component';
 
 
 @NgModule({
@@ -34,6 +39,7 @@ import { TabsModule } from 'ngx-bootstrap/tabs';
     PlacesComponent,
     MarkerClickDirective,
     LoginComponent,
+    NavmenuComponent,
     
   ],
   entryComponents: [LoginComponent],
@@ -47,7 +53,10 @@ import { TabsModule } from 'ngx-bootstrap/tabs';
     ModalModule.forRoot(),
     TabsModule.forRoot(),
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    AngularFireModule.initializeApp(environment.firebase),   
+    AngularFirestoreModule, 
+    AngularFireAuthModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

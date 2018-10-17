@@ -4,6 +4,13 @@ import {} from '@types/googlemaps';
 import { Place } from '../../interfaces/place';
 import { Marker } from '../../interfaces/marker';
 import { ActivatedRoute } from '@angular/router';
+import { AuthService } from 'src/app/services/auth.service';
+import { DatabaseService } from 'src/app/services/database.service';
+import { User } from 'src/app/interfaces/user';
+import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
+import { BsModalService } from 'ngx-bootstrap/modal';
+import { LoginComponent } from '../login/login.component';
+
 
 @Component({
   selector: 'app-places',
@@ -18,14 +25,24 @@ export class PlacesComponent implements OnInit{
   markerIdSelected: number;
   elementSelected: string;
   map: any;
+  user: User;
+  modalRef: BsModalRef;
   
   constructor(
     private ngZone: NgZone,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private auth: AuthService,
+    private modalService: BsModalService,
+    private db: DatabaseService,
   ){}   
   
   ngOnInit(){    
-      this.route.queryParamMap.subscribe(params => {
+    
+    this.auth.navState$.subscribe( (user)=> {
+      this.user = user;             
+    });
+
+    this.route.queryParamMap.subscribe(params => {
         this.coordinates = {
           lat : +params.get('lat'),
           lng : +params.get('lng'),
@@ -74,8 +91,13 @@ export class PlacesComponent implements OnInit{
     this.coordinates = coordinates;    
   }
 
-  addToPlace(place: Place){
-    console.log(place)
+  addToPlace(place: Place){    
+    if (!this.user){
+      this.modalRef = this.modalService.show(LoginComponent);
+      return;
+    }
+    this.db.addToPlace(place,this.user);
+    console.log('place',place)
   }
 
 

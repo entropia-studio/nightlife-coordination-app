@@ -27,7 +27,7 @@ datastore.connect();
 
 app.get('/api/data',(req,res) => {    
     try{
-        datastore.getStocks()
+        datastore.getMeetings()
             .then(response => {                
                 res.json(response);
             })
