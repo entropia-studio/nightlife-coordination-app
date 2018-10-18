@@ -1,6 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { HttpClientModule }    from '@angular/common/http';
 
 
 import { AppComponent } from './app.component';
@@ -41,6 +42,7 @@ import { NavmenuComponent } from './components/navmenu/navmenu.component';
     LoginComponent,
     NavmenuComponent,
     
+    
   ],
   entryComponents: [LoginComponent],
   imports: [
@@ -57,6 +59,7 @@ import { NavmenuComponent } from './components/navmenu/navmenu.component';
     AngularFireModule.initializeApp(environment.firebase),   
     AngularFirestoreModule, 
     AngularFireAuthModule,
+    HttpClientModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

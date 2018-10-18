@@ -3,5 +3,6 @@ export interface Place {
     image: string;
     address: string;
     rating: number;    
-    id: string;    
+    id: string;
+    going?: Array<string>;    
 }

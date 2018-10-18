@@ -14,8 +14,9 @@
               <li><img src="{{place.image}}" alt="{{place.name}}" class="img-fluid py-1" /></li>
               <li><b>{{place.name}}</b></li>
               <li>ADDRESS: {{place.address}}</li>
-              <li>RATING: {{place.rating}}</li>
-              <li>GOING: -</li>
+              <li *ngIf="place.rating">RATING: {{place.rating}}</li>
+              <li *ngIf="user">GOING: - <span *ngFor="let user of place.going">{{user}}</span></li>
+              <li *ngIf="!user">GOING: - {{place.going?.length}}</li>
               <li><button class="btn btn-primary btn-sm" (click)="addToPlace(place)">ADD</button></li>
             </ul>                        
       </nav>     

@@ -1,4 +1,5 @@
 require('dotenv').config();
+const moment = require('moment');
 const request = require('request');
 const mongoose = require('mongoose');
 
@@ -91,10 +92,10 @@ function connect(){
 
   function getMeetings(){
       return new Promise((resolve,reject) => {
-        try{
-            let today = new Date();
-            console.log('today',today)
-            Meeting.find({"date": {"$gte":new Date("2018-10-17T00:00:00.000Z")}})
+        try{            
+            let today = moment().startOf('day');
+            console.log('datoday:', today.toDate())
+            Meeting.find({"date": {"$gte": new Date(today.toDate())}})
             .exec((error,result) => {
                 if (error) reject(error);
                 resolve(result);

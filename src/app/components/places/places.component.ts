@@ -10,6 +10,7 @@ import { User } from 'src/app/interfaces/user';
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { LoginComponent } from '../login/login.component';
+import { Subject } from 'rxjs';
 
 
 @Component({
@@ -18,6 +19,9 @@ import { LoginComponent } from '../login/login.component';
   styleUrls: ['./places.component.css']
 })
 export class PlacesComponent implements OnInit{
+
+  mPlaces = new Subject<Place[]>();
+  mPlace$ = this.mPlaces.asObservable();
 
   places: Place[] = [];      
   markers: Marker[] = [];
@@ -51,8 +55,25 @@ export class PlacesComponent implements OnInit{
         }      
         if (this.map){
           this.searchPlaces();
-        }   
-      });            
+        }           
+      });   
+      
+      this.mPlace$.subscribe(places => {        
+        this.db.getPlaces().subscribe(placesDB => {
+          
+          this.places.map((place, index) => {                        
+            placesDB.map((placeDB) => {              
+              if (placeDB.placeId === place.id){
+                this.places[index].going.push(placeDB.userId);                
+              }
+            })
+          })         
+        })
+        
+
+      })
+
+
   }
 
   markerClick(el: string, index: number) {
@@ -132,7 +153,8 @@ export class PlacesComponent implements OnInit{
             image     : results[i].photos ? results[i].photos[0].getUrl({maxWidth: 200,maxHeight: 112}) : results[i].icon,
             address   : results[i].vicinity,
             rating    : Number(results[i].rating),            
-            id        : results[i].id            
+            id        : results[i].id,
+            going     : []            
           })    
 
           this.markers.push({
@@ -142,7 +164,8 @@ export class PlacesComponent implements OnInit{
             iconUrl   : 'https://maps.google.com/mapfiles/ms/icons/blue-dot.png',
             id        : results[i].id 
           })               
-        }              
+        }
+        this.mPlaces.next(this.places);              
       }
     })        
   }
