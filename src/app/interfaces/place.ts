@@ -5,4 +5,5 @@ export interface Place {
     rating: number;    
     id: string;
     going?: Array<string>;    
+    goingLabel?: string;
 }

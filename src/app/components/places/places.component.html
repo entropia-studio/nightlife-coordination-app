@@ -15,16 +15,16 @@
               <li><b>{{place.name}}</b></li>
               <li>ADDRESS: {{place.address}}</li>
               <li *ngIf="place.rating">RATING: {{place.rating}}</li>
-              <li *ngIf="user">GOING: - <span *ngFor="let user of place.going">{{user}}</span></li>
+              <li *ngIf="user; else elseBlock">GOING: {{place.goingLabel}}</li>
               <li *ngIf="!user">GOING: - {{place.going?.length}}</li>
               <li><button class="btn btn-primary btn-sm" (click)="addToPlace(place)">ADD</button></li>
             </ul>                        
       </nav>     
       <div class="col-md-9 ml-sm-auto col-lg-9">     
         <agm-map 
-          [latitude]="coordinates.lat" 
-          [longitude]="coordinates.lng"            
-          [zoom]="coordinates.mapZoom" appMapResize
+          [latitude]="coordinates?.lat" 
+          [longitude]="coordinates?.lng"            
+          [zoom]="coordinates?.mapZoom" appMapResize
           (mapReady)="mapReady($event)"
           [disableDefaultUI]="false"             
           >

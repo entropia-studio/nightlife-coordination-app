@@ -97,7 +97,7 @@ function connect(){
             console.log('datoday:', today.toDate())
             Meeting.find({"date": {"$gte": new Date(today.toDate())}})
             .exec((error,result) => {
-                if (error) reject(error);
+                if (error) reject(error);                
                 resolve(result);
             })
         }catch(e){

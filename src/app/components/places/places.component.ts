@@ -31,6 +31,7 @@ export class PlacesComponent implements OnInit{
   map: any;
   user: User;
   modalRef: BsModalRef;
+  goingTag: string;
   
   constructor(
     private ngZone: NgZone,
@@ -43,38 +44,63 @@ export class PlacesComponent implements OnInit{
   ngOnInit(){    
     
     this.auth.navState$.subscribe( (user)=> {
-      this.user = user;             
+      this.user = user;                            
+      this.setGoingLabels();     
     });
 
     this.route.queryParamMap.subscribe(params => {
-        this.coordinates = {
-          lat : +params.get('lat'),
-          lng : +params.get('lng'),
-          id  : params.get('placeId'),
-          mapZoom : 15
-        }      
-        if (this.map){
-          this.searchPlaces();
-        }           
-      });   
-      
-      this.mPlace$.subscribe(places => {        
-        this.db.getPlaces().subscribe(placesDB => {
-          
-          this.places.map((place, index) => {                        
-            placesDB.map((placeDB) => {              
-              if (placeDB.placeId === place.id){
-                this.places[index].going.push(placeDB.userId);                
-              }
-            })
-          })         
-        })
+      this.coordinates = {
+        lat : +params.get('lat'),
+        lng : +params.get('lng'),
+        id  : params.get('placeId'),
+        mapZoom : 15
+      }      
+      if (this.map){
+        this.searchPlaces();
+      }         
+      this.setPeopleGoingToPlaces();  
+    });     
         
-
-      })
-
-
   }
+  
+
+  setPeopleGoingToPlaces(){
+    // Compare places from DB against places from Maps
+    this.mPlace$.subscribe((places) => {        
+      this.places = places;      
+      this.db.getPlaces().subscribe(placesDB => {         
+        places.map((place, index) => {                        
+          placesDB.map((placeDB) => {              
+            if (placeDB.placeId === place.id){              
+              if (places[index].going.indexOf(placeDB.userId) < 0){
+                this.places[index].going.push(placeDB.userId);                 
+              }              
+            }
+          })
+        })
+        this.setGoingLabels();                            
+      })
+    })
+  }
+
+  // Set the label to the field Going in every place  
+  setGoingLabels(){
+    if (!this.user){      
+      return;
+    }
+    this.places.map((place,index) => {
+      var elNum = this.places[index].going.length;      
+      place.going.map(userEmail => {
+        if (userEmail === this.user.email){
+          if (elNum === 1){
+            this.places[index].goingLabel = 'Me';
+          }else{
+            this.places[index].goingLabel = (elNum - 1) + ' and me';
+          }          
+        }
+      })
+    })    
+  }  
 
   markerClick(el: string, index: number) {
     // Scroll to the element
@@ -138,23 +164,23 @@ export class PlacesComponent implements OnInit{
   }  
 
   callback(results, status) {
-    this.places = [];
+    var places = [];
     this.markers = [];
 
     // If it is not present the markers won't appear until fire an event on screen
     // It's perentory to work inside Angular zona to detect changes
     this.ngZone.run(() => {
-      if (status === google.maps.places.PlacesServiceStatus.OK) {      
-        //console.log(results)
+      if (status === google.maps.places.PlacesServiceStatus.OK) {              
         for (var i = 0; i < results.length; i++) {
-          this.places.push({
+          places.push({
             name      : results[i].name,
             // getUrl async fn, it's neccesary to set the image this way
-            image     : results[i].photos ? results[i].photos[0].getUrl({maxWidth: 200,maxHeight: 112}) : results[i].icon,
-            address   : results[i].vicinity,
-            rating    : Number(results[i].rating),            
-            id        : results[i].id,
-            going     : []            
+            image      : results[i].photos ? results[i].photos[0].getUrl({maxWidth: 200,maxHeight: 112}) : results[i].icon,
+            address    : results[i].vicinity,
+            rating     : Number(results[i].rating),            
+            id         : results[i].id,
+            going      : [],
+            goingLabel : '0'           
           })    
 
           this.markers.push({
@@ -164,9 +190,10 @@ export class PlacesComponent implements OnInit{
             iconUrl   : 'https://maps.google.com/mapfiles/ms/icons/blue-dot.png',
             id        : results[i].id 
           })               
-        }
-        this.mPlaces.next(this.places);              
+        }  
+        this.mPlaces.next(places);          
       }
+      
     })        
   }
 }
