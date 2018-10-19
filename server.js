@@ -37,12 +37,11 @@ app.get('/api/data',(req,res) => {
 })
 
 
-app.post('/api/company/add',(req,response) => {
+app.post('/api/place/add',(req,response) => {
     try{        
-        datastore.addCompany(req.body,response)
+        datastore.addPlace(req.body,response)
             .then(res => {
-                response.json(res); 
-                wss.broadcast('{"action" : "add"}');                       
+                response.json(res);                 
             },error => {
                 handleError(error,response);
             });       

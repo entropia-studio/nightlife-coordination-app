@@ -6,9 +6,10 @@ const mongoose = require('mongoose');
 var MONGODB_URI = 'mongodb://'+process.env.USER_DB+':'+process.env.PASS+'@'+process.env.HOST+':'+process.env.DB_PORT+'/'+process.env.DB;
 
 var meetingSchema = mongoose.Schema({      
-    place_id: {type: String, required: true, unique: false},
-    user_id: {type: String, required: true, unique: false},
-    date: {type: Date, required: true, unique: false}
+    placeId    : {type: String, required: true, unique: false},
+    userId     : {type: String, required: true, unique: false},
+    locationId : {type: String, required: true, unique: false},
+    date       : {type: Date, required: true, unique: false}
   })
   
 const Meeting = mongoose.model('Meeting',meetingSchema);  
@@ -23,36 +24,14 @@ function connect(){
     })
   }
 
-  function addCompany(req,res){        
+  function addPlace(req,res){        
     return new Promise((resolve,reject) => {
       try{  
-        const companyCode = req.code;
-        const urlStocksApi = 'https://api.iextrading.com/1.0/stock/'+ companyCode +'/batch?types=quote';        
-        
-        // Call the api to check if the company exists
-        request(urlStocksApi, { json: true }, (err, res, body) => {
-          if (err) { reject(new DataStoreUnknowException('GET',args,"Invalida API call"))}
-          
-          // If exists
-          if (res.statusCode !== 404){                
-            const companyName = res.body.quote.companyName;
-            companyExists(companyCode).then(exists => {
-              if (exists) reject(new DataStoreFieldValidationException(companyCode,`Company ${companyCode} code already exists`))
-              let company = new Company(
-                                {
-                                 name: companyName,
-                                 code: companyCode                             
-                                })
-            
-              company.save((error, result) => {
-                if (error) reject (new DataStoreUnknowException("insert",companyCode,error))
+        let meeting = new Meeting(req);
+        meeting.save((error,result) => {
+          if (error) reject (new DataStoreUnknowException("insert",companyCode,error))
                 resolve(result);
-              })
-            })    
-          }else{ // Company doesn't exist       
-            reject(new DataStoreFieldValidationException(companyCode,`Company ${companyCode} code doesn't exist`))
-          }              
-        });        
+        })
       }catch(e){
         reject(new DataStoreUnknowException("insert",companyCode,e));
       }
@@ -125,7 +104,7 @@ function connect(){
 
   module.exports = {
     connect,
-    addCompany,    
+    addPlace,    
     getMeetings,
     deleteCompany
   }

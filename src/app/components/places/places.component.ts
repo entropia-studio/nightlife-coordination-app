@@ -142,9 +142,21 @@ export class PlacesComponent implements OnInit{
     if (!this.user){
       this.modalRef = this.modalService.show(LoginComponent);
       return;
-    }
-    this.db.addToPlace(place,this.user);
-    console.log('place',place)
+    }    
+    this.db.addToPlace(place.id,this.user.email,this.coordinates.id)
+      .subscribe(result => {
+        console.log("add to place res: ",result)
+        this.places.map((place,index) => {
+          if (place.id === result.placeId){
+            this.places[index].going.push(result.userId);
+            this.mPlaces.next(this.places);
+            console.log('result.userId',result.userId)
+            return;
+          }
+        })
+        
+    })
+    //console.log('place',place)
   }
 
 
