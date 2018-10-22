@@ -51,23 +51,7 @@ function connect(){
         reject(new DataStoreUnknowException("delete",companyCode,e));
       }
     })
-  }
-
-  // Check if the company code exists on the DB
-  function companyExists(companyCode){
-    return new Promise((resolve, reject)=>{
-      try{      
-
-        Company.find({code: companyCode})
-            .exec((error,result) => {            
-               if (error) reject(error);
-               resolve(result.length > 0 ? true : false);
-        })
-      }catch(e){
-        reject(new DataStoreFieldValidationException("company",companyCode,e));
-      }
-    })
-  }
+  }  
 
   function getMeetings(){
       return new Promise((resolve,reject) => {
