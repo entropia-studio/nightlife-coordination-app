@@ -10,6 +10,7 @@ import { User } from 'src/app/interfaces/user';
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { LoginComponent } from '../login/login.component';
+import { ModalContentComponent } from '../modal-content/modal-content.component';
 import { Subject } from 'rxjs';
 
 
@@ -59,10 +60,8 @@ export class PlacesComponent implements OnInit{
         this.searchPlaces();
       }         
       this.setPeopleGoingToPlaces();  
-    });     
-        
+    });   
   }
-  
 
   setPeopleGoingToPlaces(){
     // Compare places from DB against places from Maps
@@ -74,7 +73,9 @@ export class PlacesComponent implements OnInit{
             if (placeDB.placeId === place.id){              
               if (places[index].going.indexOf(placeDB.userId) < 0){
                 this.places[index].going.push(placeDB.userId);                 
-              }              
+              } 
+              // Add the _id from Mongo to this place
+              places[index]._id = placeDB._id;             
             }
           })
         })
@@ -90,19 +91,24 @@ export class PlacesComponent implements OnInit{
     }
     this.places.map((place,index) => {
       var elNum = this.places[index].going.length;      
-      place.going.map(userEmail => {
-        if (userEmail === this.user.email){
+      place.going.map(() => {
+        this.places[index].goingLabel = elNum.toString();
+        let i = this.places[index].going.indexOf(this.user.email);        
+        if (i >= 0){
           if (elNum === 1){
             this.places[index].goingLabel = 'Me';
           }else{
-            this.places[index].goingLabel = (elNum - 1) + ' and me';
-          }          
-        }
+            this.places[index].goingLabel = (elNum - 1 ) + ' and me';
+          }    
+        }        
       })
     })    
   }  
 
   markerClick(el: string, index: number) {
+    // Avoid toogle when user clicks again
+    if (this.markerIdSelected === index) return;
+    
     // Scroll to the element
     document.getElementById(el).scrollIntoView({behavior: "smooth"});
     // Style selected list
@@ -144,21 +150,49 @@ export class PlacesComponent implements OnInit{
       return;
     }    
     this.db.addToPlace(place.id,this.user.email,this.coordinates.id)
-      .subscribe(result => {
-        console.log("add to place res: ",result)
+      .subscribe(result => {        
         this.places.map((place,index) => {
           if (place.id === result.placeId){
             this.places[index].going.push(result.userId);
-            this.mPlaces.next(this.places);
-            console.log('result.userId',result.userId)
+            this.mPlaces.next(this.places);           
             return;
           }
         })
-        
-    })
-    //console.log('place',place)
+    })    
   }
 
+  // Remove user from place
+  // Only is possible is the user previously has registered to this place
+  removeToPlace(_id: string){        
+    this.db.removeToPlace(_id)
+      .subscribe(result => {                
+        this.places.map((place,index) => {
+          if (place._id === _id){
+            // Search the index for the user within going array to remove it
+            let i = this.places[index].going.indexOf(this.user.email);
+            this.places[index].going.splice(i,1);
+            this.places[index]._id = null;
+            this.places[index].goingLabel = this.places[index].going.length.toString();
+            this.mPlaces.next(this.places);            
+            
+            return;
+          }
+        })        
+    })    
+  }
+
+  // Check if the user is going to a place
+  // Toogle Add/Remove button
+  userGoesToPlace(place: Place,user: User | null){    
+    if (place.going.length == 0 || !user) return false;
+    var sw = false;
+    place.going.map(userEmail => {
+      if (userEmail === user.email){        
+        sw = true;
+      } 
+    })    
+    return sw;
+  }
 
   mapReady(map: any){    
     this.map = map;
@@ -192,7 +226,8 @@ export class PlacesComponent implements OnInit{
             rating     : Number(results[i].rating),            
             id         : results[i].id,
             going      : [],
-            goingLabel : '0'           
+            goingLabel : '0',
+            _id        : null           
           })    
 
           this.markers.push({
@@ -208,4 +243,31 @@ export class PlacesComponent implements OnInit{
       
     })        
   }
+
+  // Shows de List button 
+  isUserListShow(place: Place,user: User | null){    
+    if (!user) return false;    
+    let len = place.going.length;    
+    return (len > 1 || (len === 0 && place.going.indexOf(user.email) >= 0));
+  }
+
+  // Launch modal with user list for this place
+  userListShow(place: Place){
+    
+    
+    var userList = [];
+    
+    place.going.map((user,i) => {      
+      userList.push(user.split('@')[0]); 
+    })
+    
+    const initialState = {
+      userList,
+      title: 'Who is going:'
+    }
+    this.modalRef = this.modalService.show(ModalContentComponent,{initialState});
+    this.modalRef.content.closeBtnName = 'Close';
+    
+  }
+
 }

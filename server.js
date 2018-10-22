@@ -37,9 +37,9 @@ app.get('/api/data',(req,res) => {
 })
 
 
-app.post('/api/place/add',(req,response) => {
+app.post('/api/meeting/add',(req,response) => {
     try{        
-        datastore.addPlace(req.body,response)
+        datastore.addMeeting(req.body,response)
             .then(res => {
                 response.json(res);                 
             },error => {
@@ -50,11 +50,10 @@ app.post('/api/place/add',(req,response) => {
     }
 })
 
-app.delete('/api/company/delete/:codeCompany',(req,response) => {
+app.delete('/api/meeting/delete/:_id',(req,response) => {
     try{        
-        datastore.deleteCompany(req.params.codeCompany)
-            .then(res => {
-                wss.broadcast('{"action" : "delete"}');
+        datastore.deleteMeeting(req.params._id)
+            .then(res => {                
                 response.json(res);                        
             },error => {
                 handleError(error,response);

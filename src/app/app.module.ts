@@ -27,6 +27,7 @@ import { AngularFireModule } from '@angular/fire';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { AngularFireAuthModule } from '@angular/fire/auth';
 import { NavmenuComponent } from './components/navmenu/navmenu.component';
+import { ModalContentComponent } from './components/modal-content/modal-content.component';
 
 
 @NgModule({
@@ -41,10 +42,11 @@ import { NavmenuComponent } from './components/navmenu/navmenu.component';
     MarkerClickDirective,
     LoginComponent,
     NavmenuComponent,
+    ModalContentComponent,
     
     
   ],
-  entryComponents: [LoginComponent],
+  entryComponents: [LoginComponent, ModalContentComponent],
   imports: [
     BrowserModule,
     AgmCoreModule.forRoot({

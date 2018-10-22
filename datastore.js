@@ -24,7 +24,7 @@ function connect(){
     })
   }
 
-  function addPlace(req,res){        
+  function addMeeting(req,res){        
     return new Promise((resolve,reject) => {
       try{  
         let meeting = new Meeting(req);
@@ -38,13 +38,13 @@ function connect(){
     })
   }
 
-  function deleteCompany(companyCode){
+  function deleteMeeting(_id){
     return new Promise((resolve,reject) => {
       try{        
-        Company.deleteOne({code: companyCode})
+        Meeting.deleteOne({_id: _id})
             .exec((error,result) => {            
                if (error) reject(error);
-               resolve({'log' : `Company ${companyCode} deleted`});
+               resolve({'log' : `Meeting ${_id} deleted`});
             }
         )
       }catch(e){
@@ -104,7 +104,7 @@ function connect(){
 
   module.exports = {
     connect,
-    addPlace,    
+    addMeeting,    
     getMeetings,
-    deleteCompany
+    deleteMeeting
   }

@@ -15,9 +15,11 @@
               <li><b>{{place.name}}</b></li>
               <li>ADDRESS: {{place.address}}</li>
               <li *ngIf="place.rating">RATING: {{place.rating}}</li>
-              <li *ngIf="user; else elseBlock">GOING: {{place.goingLabel}}</li>
-              <li *ngIf="!user">GOING: - {{place.going?.length}}</li>
-              <li><button class="btn btn-primary btn-sm" (click)="addToPlace(place)">ADD</button></li>
+              <li *ngIf="user">GOING: {{place.goingLabel}}</li>
+              <li *ngIf="!user">GOING: {{place.going?.length}}</li>
+              <li *ngIf="!userGoesToPlace(place,user)"><button class="btn btn-primary btn-sm" (click)="addToPlace(place)">ADD</button></li>
+              <li *ngIf="userGoesToPlace(place,user)"><button class="btn btn-primary btn-sm" (click)="removeToPlace(place._id)">REMOVE</button></li>
+              <li *ngIf="isUserListShow(place,user)"><button class="btn btn-primary btn-sm" (click)="userListShow(place)">LIST</button></li>
             </ul>                        
       </nav>     
       <div class="col-md-9 ml-sm-auto col-lg-9">     

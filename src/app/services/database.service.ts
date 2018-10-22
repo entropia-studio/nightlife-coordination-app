@@ -8,7 +8,8 @@ const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
 };
 
-interface addPlaceDbOb{
+interface placeDbOb{
+  _id?: string;
   placeId: string;
   userId: string;
   locationId: string;
@@ -24,12 +25,12 @@ export class DatabaseService {
     private http: HttpClient,
   ) { }
 
-  getPlaces():Observable<any[]>{
-    return this.http.get<any[]>('http://localhost:8080/api/data');
+  getPlaces():Observable<placeDbOb[]>{
+    return this.http.get<placeDbOb[]>('http://localhost:8080/api/data');
   }
 
   
-  addToPlace(placeId: string, userId: string, locationId: string): Observable<addPlaceDbOb>{
+  addToPlace(placeId: string, userId: string, locationId: string): Observable<placeDbOb>{
     
     let addToPlace = {
       placeId: placeId,
@@ -38,7 +39,11 @@ export class DatabaseService {
       date: new Date()
     }
     console.log('addPlaceDbOb',addToPlace);
-    return this.http.post<addPlaceDbOb>('http://localhost:8080/api/place/add',addToPlace,httpOptions);    
+    return this.http.post<placeDbOb>('http://localhost:8080/api/meeting/add',addToPlace,httpOptions);    
+  }
+
+  removeToPlace(id: string): Observable<placeDbOb>{         
+    return this.http.delete<placeDbOb>('http://localhost:8080/api/meeting/delete/'+id,httpOptions);    
   }
 
 }

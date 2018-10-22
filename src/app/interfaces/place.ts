@@ -6,4 +6,5 @@ export interface Place {
     id: string;
     going?: Array<string>;    
     goingLabel?: string;
+    _id: string; //_id from MongoDB
 }
