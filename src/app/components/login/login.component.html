@@ -28,7 +28,7 @@
     </tab>
     <tab heading="Registration">        
         <div class="modal-body">
-            <form [formGroup]="registerForm" #formDirective="ngForm" (ngSubmit)="registerUser(formDirective)">
+            <form [formGroup]="registerForm" #formDirective="ngForm" (ngSubmit)="registerUser()">
               <div class="form-group">
                 <label for="email">Email address</label>
                 <input type="email" 
