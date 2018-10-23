@@ -8,8 +8,7 @@
             <ul class="list-unstyled" 
                 *ngFor="let place of places;let i = index" 
                 (click)="markerClick(place.id,i)"
-                id="{{place.id}}"
-                appMarkerClick
+                id="{{place.id}}"                
             >
               <li><img src="{{place.image}}" alt="{{place.name}}" class="img-fluid py-1" /></li>
               <li><b>{{place.name}}</b></li>
