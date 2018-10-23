@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { User } from '../interfaces/user';
 import { Subject } from 'rxjs';
@@ -12,8 +11,7 @@ export class AuthService {
   public user: User;  
 
   constructor(
-    public afAuth: AngularFireAuth,    
-    private router: Router
+    public afAuth: AngularFireAuth,        
   ) { }
   
   
@@ -34,8 +32,7 @@ export class AuthService {
     this.user = undefined;
     this.navStateSource.next(this.user); 
   }
-  private oAuthLogin(provider) {
-    return this.afAuth.auth.signInWithPopup(provider);
-  }
+
+
 
 }

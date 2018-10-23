@@ -1,6 +1,4 @@
 import { Injectable } from '@angular/core';
-import { User } from '../interfaces/user';
-import { Place } from '../interfaces/place';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
@@ -21,12 +19,14 @@ interface placeDbOb{
 })
 export class DatabaseService {
 
+  apiUrl: string = 'http://localhost:8080/api';
+
   constructor(
     private http: HttpClient,
   ) { }
 
   getPlaces():Observable<placeDbOb[]>{
-    return this.http.get<placeDbOb[]>('http://localhost:8080/api/data');
+    return this.http.get<placeDbOb[]>(this.apiUrl + '/data');
   }
 
   
@@ -39,11 +39,11 @@ export class DatabaseService {
       date: new Date()
     }
     
-    return this.http.post<placeDbOb>('http://localhost:8080/api/meeting/add',addToPlace,httpOptions);    
+    return this.http.post<placeDbOb>(this.apiUrl + '/meeting/add',addToPlace,httpOptions);    
   }
 
   removeToPlace(id: string): Observable<placeDbOb>{         
-    return this.http.delete<placeDbOb>('http://localhost:8080/api/meeting/delete/'+id,httpOptions);    
+    return this.http.delete<placeDbOb>(this.apiUrl + '/meeting/delete/'+id,httpOptions);    
   }
 
 }
