@@ -46,7 +46,7 @@ export class PlacesComponent implements OnInit{
     
     this.auth.navState$.subscribe( (user)=> {
       this.user = user;                            
-      this.setGoingLabels();     
+      this.setGoingLabels(this.places);     
     });
 
     this.route.queryParamMap.subscribe(params => {
@@ -72,37 +72,37 @@ export class PlacesComponent implements OnInit{
           placesDB.map((placeDB) => {              
             if (placeDB.placeId === place.id){              
               if (places[index].going.indexOf(placeDB.userId) < 0){
-                this.places[index].going.push(placeDB.userId);                 
+                places[index].going.push(placeDB.userId);                 
               } 
               // Add the _id from Mongo to this place
               places[index]._id = placeDB._id;             
             }
           })
         })
-        this.setGoingLabels();                            
+        this.setGoingLabels(places);                            
       })
     })
   }
 
   // Set the label to the field Going in every place  
-  setGoingLabels(){
+  setGoingLabels(places: Place[]){
     if (!this.user){      
       return;
     }
-    this.places.map((place,index) => {
+    places.map((place,index) => {
       var elNum = this.places[index].going.length;      
       place.going.map(() => {
-        this.places[index].goingLabel = elNum.toString();
-        let i = this.places[index].going.indexOf(this.user.email);        
+        places[index].goingLabel = elNum.toString();
+        let i = places[index].going.indexOf(this.user.email);        
         if (i >= 0){
           if (elNum === 1){
-            this.places[index].goingLabel = 'Me';
+            places[index].goingLabel = 'Me';
           }else{
-            this.places[index].goingLabel = (elNum - 1 ) + ' and me';
+            places[index].goingLabel = (elNum - 1 ) + ' and me';
           }    
         }        
       })
-    })    
+    })       
   }  
 
   markerClick(el: string, index: number) {
@@ -252,11 +252,10 @@ export class PlacesComponent implements OnInit{
   }
 
   // Launch modal with user list for this place
-  userListShow(place: Place){
-    
+  userListShow(place: Place){   
     
     var userList = [];
-    
+        
     place.going.map((user,i) => {      
       userList.push(user.split('@')[0]); 
     })

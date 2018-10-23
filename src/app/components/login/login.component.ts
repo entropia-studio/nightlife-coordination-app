@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import { FormGroup, Validators, FormBuilder, ValidatorFn, ValidationErrors} from '@angular/forms';
-import { DatabaseService } from '../../services/database.service';
 import { AuthService } from '../../services/auth.service';
 import { User } from '../../interfaces/user';
 
