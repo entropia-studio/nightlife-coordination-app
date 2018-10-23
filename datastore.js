@@ -56,8 +56,7 @@ function connect(){
   function getMeetings(){
       return new Promise((resolve,reject) => {
         try{            
-            let today = moment().startOf('day');
-            console.log('datoday:', today.toDate())
+            let today = moment().startOf('day');            
             Meeting.find({"date": {"$gte": new Date(today.toDate())}})
             .exec((error,result) => {
                 if (error) reject(error);                

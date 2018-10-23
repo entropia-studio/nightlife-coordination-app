@@ -38,7 +38,7 @@ export class DatabaseService {
       locationId: locationId,
       date: new Date()
     }
-    console.log('addPlaceDbOb',addToPlace);
+    
     return this.http.post<placeDbOb>('http://localhost:8080/api/meeting/add',addToPlace,httpOptions);    
   }
 
