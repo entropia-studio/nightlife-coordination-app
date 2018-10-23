@@ -14,7 +14,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { LocationComponent } from './components/location/location.component';
 import { MapComponent } from './components/map/map.component';
 import { PlacesComponent } from './components/places/places.component';
-import { MarkerClickDirective } from './directives/marker-click.directive';
 import { LoginComponent } from './components/login/login.component';
 
 // ngx modules
@@ -38,8 +37,7 @@ import { ModalContentComponent } from './components/modal-content/modal-content.
     SearchboxComponent,
     LocationComponent,
     MapComponent,
-    PlacesComponent,
-    MarkerClickDirective,
+    PlacesComponent,    
     LoginComponent,
     NavmenuComponent,
     ModalContentComponent,
